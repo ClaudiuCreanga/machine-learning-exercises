@@ -53,8 +53,9 @@ y = data[:, 1]
 
 
 #number of training samples
-m = y.size
+m = y.size  # 97 in our dataset, the number of rows
 
+# y intercept, the constant, the value at which the fitted line crosses the y axis.
 #Add a column of ones to X (interception data)
 it = np.ones(shape=(m, 2))
 it[:, 1] = X
