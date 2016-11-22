@@ -8,21 +8,42 @@ xlabel('Population of City in 10,000s')
 ylabel('Profit in $10,000s')
 #plt.show()
 
+X = data[:, 0]
+y = data[:, 1]
+ones = np.ones(shape=(X.size))
+X = np.c_[X,ones]
+Y = np.ones(shape=(5, 2), dtype=np.int)
+theta = np.zeros(shape=(2, 1)) # initialize fitting parameters
+iterations = 1500;
+alpha = 0.01;
+#predictions = X.dot(theta)
+#print(predictions)
+#print(ones)
 
-#Evaluate the linear regression
-def compute_cost(X, y, theta):
+def computeCost(X, y, theta):
 
-    #Comput cost for linear regression
-    #Number of training samples
-    m = y.size
+    # J = (1.0/(2*y.size))*(sum((X.dot(theta).flatten() - y)**2)) the entire formula
 
-    predictions = X.dot(theta).flatten()
+    m = y.size #number of training examples
 
-    sqErrors = (predictions - y) ** 2
+    predictions = X.dot(theta).flatten() # multiply X matrix with theta and then flatten it to one dimension, this is the hypothesys h
 
-    J = (1.0 / (2 * m)) * sqErrors.sum()
+    sqErrors = (predictions - y) ** 2 # give back the error squared
+
+    J = (1.0 / (2 * m)) * sqErrors.sum() # the cost function
 
     return J
+
+print(computeCost(X, y, theta))
+
+def gradientDescent(X, y, theta, alpha, num_iters):
+
+    m = y.size #number of training examples
+
+    for i in range(num_iters):
+
+        predictions = X.dot(theta).flatten()
+
 
 def gradient_descent(X, y, theta, alpha, num_iters):
     '''
@@ -43,7 +64,7 @@ def gradient_descent(X, y, theta, alpha, num_iters):
         theta[0][0] = theta[0][0] - alpha * (1.0 / m) * errors_x1.sum()
         theta[1][0] = theta[1][0] - alpha * (1.0 / m) * errors_x2.sum()
 
-        J_history[i, 0] = compute_cost(X, y, theta)
+        J_history[i, 0] = computeCost(X, y, theta)
 
     return theta, J_history
 
@@ -81,4 +102,4 @@ print('For population = 70,000, we predict a profit of %f' % (predict2 * 10000))
 #Plot the results
 result = it.dot(theta).flatten()
 plt.plot(data[:, 0], result)
-plt.show()
+#plt.show()
